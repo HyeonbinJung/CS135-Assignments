@@ -1,0 +1,25 @@
+;; The first three lines of this file were inserted by DrRacket. They record metadata
+;; about the language level of this file in a form that our tools can easily process.
+#reader(lib "htdp-intermediate-lambda-reader.ss" "lang")((modname filedir) (read-case-sensitive #t) (teachpacks ()) (htdp-settings #(#t constructor repeating-decimal #f #t none #f () #f)))
+(require "fs-print.rkt")
+
+(define (list-files fd)
+  (local
+    [
+     ;; FDList helper (only used inside list-files)
+     (define (list-files-fdl lst)
+       (cond
+         [(empty? lst)
+          empty]
+         [else
+          (append (list-files (first lst))
+                  (list-files-fdl (rest lst)))]))
+     ]
+
+    ;; FileDir template
+    (cond
+      [(file? fd)
+       (list (file-name fd))]
+
+      [else   ; fd is a Dir
+       (list-files-fdl (dir-contents fd))])))
