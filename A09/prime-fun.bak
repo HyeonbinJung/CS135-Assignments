@@ -1,0 +1,17 @@
+;; The first three lines of this file were inserted by DrRacket. They record metadata
+;; about the language level of this file in a form that our tools can easily process.
+#reader(lib "htdp-intermediate-lambda-reader.ss" "lang")((modname prime-fun) (read-case-sensitive #t) (teachpacks ()) (htdp-settings #(#t constructor repeating-decimal #f #t none #f () #f)))
+(define (prime? n)
+  (cond [(< n 2) false]
+        [else
+         (foldr
+          (lambda (d acc)
+            (and acc (not (= (remainder n d) 0))))
+          true
+          (build-list (sub1 n) (lambda (k) (+ k 1))))]))
+
+(check-expect (prime? 13) true)
+(check-expect (prime? 14) false)
+(check-expect (prime? 2) true)
+(check-expect (prime? 1) false)
+(check-expect (prime? 0) false)
